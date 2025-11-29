@@ -11,6 +11,15 @@
     <title>Browse</title>
   </head>
   <body>
-      {% include 'saybabook_app/components/navbar.html' %}
+    {% include 'saybabook_app/components/navbar.html' %}
+    <div class="container">
+    {% for user in users %}
+      {% for book in books %}
+          <p>{{ book.book_description }}</p>
+          <p>{{ user.username }}</p>
+      </div>
+      {% endfor %}
+    {% endfor %}
+    </div>
   </body>
 </html>

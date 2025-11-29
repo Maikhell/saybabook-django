@@ -29,9 +29,9 @@ class Book(models.Model):
     book_description = models.TextField(blank=True, null=True, verbose_name='Description') 
     book_online_link = models.URLField(max_length=500, blank=True, null=True, verbose_name='Online Read Link')
     book_cover = models.ImageField(upload_to='book_covers/', blank=True, null=True, verbose_name='Book Cover')
-    
+    book_privacy = models.TextField(blank=True, null=True, verbose_name='Privacy') 
     #FK
-    author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name='books')
+    author = models.ForeignKey(Author, on_delete=models.CASCADE, null=True,related_name='books')
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name='books')
     
     # Many-to-Many field for genres (A book can have many genres, a genre can have many books)
@@ -45,12 +45,16 @@ class Book(models.Model):
 
 class UserProfile(models.Model):
     # For a real application, replace this with linking to Django's Auth User
-    username = models.CharField(max_length=60, unique=True, verbose_name='Username') 
-    password = models.CharField(max_length=128) # Passwords should use Hashing (min length 128)
     email = models.EmailField(max_length=255, unique=True, blank=True, null=True)
-        
+    name = models.CharField(max_length=255, unique=True,blank=True, null=True) 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.name
+class User(models.Model):
+    username = models.CharField(max_length=60, unique=True, verbose_name='Username') 
+    password = models.CharField(max_length=128) # Passwords should use Hashing (min length 128)
+    
     def __str__(self):
         return self.username
