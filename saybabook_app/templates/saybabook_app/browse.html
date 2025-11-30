@@ -15,10 +15,22 @@
     <div class="container">
     {% for user in users %}
       {% for book in books %}
-          <p>{{ book.book_description }}</p>
-          <p>{{ user.username }}</p>
+      <div class="card" style="width: 18rem">
+        {% if book.book_cover %}
+        <img src="{{ book.book_cover.url }}" class="card-img-top" alt="..." />
+        {% else %}
+        <p>No image Loaded</p>
+        {% endif %}
+        <div class="card-body">
+          <h5 class="card-title">{{book.book_title}}</h5>
+          <p class="card-text">
+            <p>{{ user.username }}</p>
+            <p>{{ book.book_description }}</p>
+          </p>
+          <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
       </div>
-      {% endfor %}
+      {% endfor %} 
     {% endfor %}
     </div>
   </body>

@@ -24,6 +24,7 @@ def show_books(request):
     authors = Author.objects.all()
     genres = Genre.objects.all()
     books = Book.objects.filter(book_privacy ='public').select_related('author').order_by('-created_at')
+    #Make the retrieval specfic for names, dont use all()
     users= User.objects.filter(username = 'Mai')
     context = {
         'categories': categories,
