@@ -30,6 +30,8 @@ class Book(models.Model):
     book_online_link = models.URLField(max_length=500, blank=True, null=True, verbose_name='Online Read Link')
     book_cover = models.ImageField(upload_to='book_covers/', blank=True, null=True, verbose_name='Book Cover')
     book_privacy = models.TextField(blank=True, null=True, verbose_name='Privacy') 
+    book_status = models.TextField(blank=True, null=True, verbose_name='Status') 
+
     #FK
     author = models.ForeignKey(Author, on_delete=models.CASCADE, null=True,related_name='books')
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name='books')

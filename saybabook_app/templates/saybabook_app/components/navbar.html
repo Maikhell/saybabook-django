@@ -15,7 +15,7 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
            {% url 'browse' as browse_url%}
-          <a class="nav-link {% if request.path == browse_url %}active{% endif %}" aria-current="page" href="{%url 'browse'%}"
+          <a class="nav-link {% if request.path == browse_url %}active{% endif %}" aria-current="page" href="{%url 'book.show'%}"
             >Browse</a
           >
         </li>
@@ -23,7 +23,7 @@
           {% url 'addbooks' as addbook_url%}
           <a
             class="nav-link {% if request.path == addbook_url %}active{% endif %}"
-            href="{%url 'addbooks'%}"
+            href="{%url 'book.add'%}"
             >Add Book</a
           >
         </li>

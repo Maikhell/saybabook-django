@@ -14,7 +14,12 @@
     {% include 'saybabook_app/components/navbar.html' %}
     <section>
       <div class="container">
-        <form>
+        <form
+          method="POST"
+          action="{% url 'book.add'%}"
+          enctype="multipart/form-data"
+        >
+          {% csrf_token %}
           <div class="mb-3">
             <label for="bookTitle" class="form-label">Book Title</label>
             <input
@@ -110,7 +115,15 @@
               <option value="dropped">Dropped</option>
             </select>
           </div>
-
+          <div class="mb-3">
+            <label for="bookTitle" class="form-label">Book Online Link</label>
+            <input
+              name="bookOnlineLink"
+              type="text"
+              class="form-control"
+              id="bookOnlineLink"
+            />
+          </div>
           <div class="mb-3">
             <label class="form-label">Book Privacy</label>
             <div>
