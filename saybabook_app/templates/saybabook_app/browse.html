@@ -12,26 +12,51 @@
   </head>
   <body>
     {% include 'saybabook_app/components/navbar.html' %}
-    <div class="container">
-    {% for user in users %}
-      {% for book in books %}
-      <div class="card" style="width: 18rem">
+   <div class="container">
+
+    {% for book in books %}   
+    <div class="card" style="width: 18rem; margin-bottom: 20px;">
         {% if book.book_cover %}
-        <img src="{{ book.book_cover.url }}" class="card-img-top" alt="..." />
+        <img src="{{ book.book_cover.url }}" class="card-img-top" alt="{{ book.book_title }} cover" />
         {% else %}
-        <p>No image Loaded</p>
+        <img src="https://placehold.co/600x400/CCCCCC/000000?text=No+Cover" class="card-img-top" alt="No cover loaded" />
         {% endif %}
+
         <div class="card-body">
-          <h5 class="card-title">{{book.book_title}}</h5>
-          <p class="card-text">
-            <p>{{ user.username }}</p>
-            <p>{{ book.book_description }}</p>
-          </p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
+            <h5 class="card-title">{{ book.book_title }}</h5>
+            
+            <p class="card-text">
+                <strong>Author(s):</strong> 
+            {% for author in book.author.all %}
+                {{ author.name }},
+            {% empty %}
+                Unknown
+            {% endfor %}
+            </p>
+            <p class="card-text">
+                <strong>Genres:</strong> 
+                {% for genre in book.genres.all %}
+                    <span class="badge bg-secondary me-1">{{ genre.name }}</span>
+                {% empty %}
+                    <span class="text-muted fst-italic">No genres listed.</span>
+                {% endfor %}
+            </p>
+            <p class="card-text">
+                {% if book.book_category %}
+                <strong>Category: </strong> {{ book.book_category.name}} 
+                {% else %}
+                <span class="text-muted fst-italic">No category listed.</span>
+                {% endif %}
+            </p>
+            <p class="card-text">
+                <strong>Description:</strong> {{ book.book_description|truncatechars:100 }}
+            </p>
+            
+            <a href="#" class="btn btn-primary">Go somewhere</a>
         </div>
-      </div>
-      {% endfor %} 
-    {% endfor %}
     </div>
+    {% endfor %} 
+    
+</div>
   </body>
 </html>
