@@ -1,0 +1,16 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action=" {% url 'book.delete' object.pk%}" method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+        <p>Delete?</p>
+        <input type="submit" value="Confirm">
+
+    </form>
+</body>
+</html>

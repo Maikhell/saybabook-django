@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect 
 from django.db.models import F
 from django.urls import reverse_lazy
-from django.views.generic import View, ListView, CreateView
+from django.views.generic import View, ListView, CreateView, DeleteView
 from .models import Category, Author, Genre, Book, User
 from .forms import BookForm
 
@@ -10,12 +10,6 @@ def landing_page(request):
 
 def browse_page(request):
     return render(request, 'saybabook_app/browse.html')
-
-def mybooks_page(request):
-    return render(request, 'saybabook_app/mybooks.html')
-
-def archive_page(request):
-    return render (request, 'saybabook_app/archive.html')
 
 def account_page(request):
     return render(request, 'saybabook_app/account.html')
@@ -94,3 +88,28 @@ class PrivateBookListView(ListView):
         context['genres'] = Genre.objects.all()
         context['users'] = User.objects.all().values_list('username', flat=True)
         return context
+    
+class ArchivedBookListView(ListView):
+    model = Book
+    template_name = 'saybabook_app/archive.html'
+    context_object_name = 'books'
+    
+    def get_queryset(self):
+        queryset = Book.objects.filter(book_status = 'archived').order_by('-created_at').select_related(
+            'book_category'
+        ).prefetch_related(
+            'author', 'genres'
+        )
+        return queryset
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context ['categories'] = Category.objects.all()
+        context ['authors'] = Author.objects.all()
+        context ['genres'] = Genre.objects.all()
+        context ['users'] = User.objects.all().values_list('username', flat=True)
+        return context
+class BookDeleteView(DeleteView):
+        model = Book
+        template_name = 'saybabook_app/deletebook.html'
+        success_url = reverse_lazy('book.show')
