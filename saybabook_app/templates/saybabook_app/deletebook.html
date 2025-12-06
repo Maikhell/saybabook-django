@@ -1,16 +1,40 @@
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
-    <form action=" {% url 'book.delete' object.pk%}" method="post">
-        {% csrf_token %}
-        {{form.as_p}}
-        <p>Delete?</p>
-        <input type="submit" value="Confirm">
+  <body>
+    <button type="button" class="btn btn-primary" id="liveToastBtn">
+      Show live toast
+    </button>
 
-    </form>
-</body>
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+      <div
+        id="liveToast"
+        class="toast hide"
+        role="alert"
+        aria-live="assertive"
+        aria-atomic="true"
+      >
+        <div class="toast-header">
+          <img src="..." class="rounded me-2" alt="..." />
+          <strong class="me-auto">Bootstrap</strong>
+          <small>11 mins ago</small>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="toast"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="toast-body">
+          <form action=" {% url 'book.delete' object.pk%}" method="post">
+            {% csrf_token %} {{form.as_p}}
+            <p>Delete?</p>
+            <input type="submit" value="Confirm" />
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>

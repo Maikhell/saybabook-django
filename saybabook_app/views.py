@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect 
 from django.db.models import F
 from django.urls import reverse_lazy
-from django.views.generic import View, ListView, CreateView, DeleteView
+from django.views.generic import View, ListView, CreateView, DeleteView, DetailView
 from .models import Category, Author, Genre, Book, User
 from .forms import BookForm
 
@@ -113,3 +113,6 @@ class BookDeleteView(DeleteView):
         model = Book
         template_name = 'saybabook_app/deletebook.html'
         success_url = reverse_lazy('book.show')
+        
+class BookDetailView(DetailView):
+        model = Book
