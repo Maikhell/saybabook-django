@@ -52,8 +52,8 @@ class UserProfile(models.Model):
 class User(models.Model):
     #userProfile FK
     user_profile = models.OneToOneField(UserProfile, on_delete=models.SET_NULL, related_name= 'userProfile', null=True)
-    username = models.CharField(max_length=60, unique=True, verbose_name='Username') 
-    password = models.CharField(max_length=128) # Passwords should use Hashing (min length 128)
+    user_name = models.CharField(max_length=60, unique=True, verbose_name='Username') 
+    user_password = models.CharField(max_length=128) # Passwords should use Hashing (min length 128)
     
     def __str__(self):
         return self.username

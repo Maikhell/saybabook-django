@@ -1,5 +1,6 @@
 from django import forms
-from .models import Book
+from .models import Book , User
+
 
 class BookForm(forms.ModelForm):
     
@@ -22,3 +23,10 @@ class BookForm(forms.ModelForm):
         widgets = {
             'book_description': forms.Textarea(attrs={'cols': 80, 'rows': 5})
         }
+class UserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = [
+         'user_name',
+         'user_password'       
+        ]
