@@ -50,10 +50,11 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.name
 class User(models.Model):
-    #userProfile FK
+    #userProfile OtO
     user_profile = models.OneToOneField(UserProfile, on_delete=models.SET_NULL, related_name= 'userProfile', null=True)
     user_name = models.CharField(max_length=60, unique=True, verbose_name='Username') 
     user_password = models.CharField(max_length=128) # Passwords should use Hashing (min length 128)
+    last_login = models.DateTimeField(null=True, blank=True)
     
     def __str__(self):
         return self.username

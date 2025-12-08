@@ -14,8 +14,11 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-           {% url 'browse' as browse_url%}
-          <a class="nav-link {% if request.path == browse_url %}active{% endif %}" aria-current="page" href="{%url 'book.show'%}"
+          {% url 'browse' as browse_url%}
+          <a
+            class="nav-link {% if request.path == browse_url %}active{% endif %}"
+            aria-current="page"
+            href="{%url 'book.show'%}"
             >Browse</a
           >
         </li>
@@ -28,18 +31,49 @@
           >
         </li>
         <li class="nav-item">
-           {% url 'mybooks' as mybooks_url%}
-          <a class="nav-link {% if request.path == archive_url %}active{% endif %}" aria-current="page" href="{%url 'mybooks'%}"
+          {% url 'mybooks' as mybooks_url%}
+          <a
+            class="nav-link {% if request.path == archive_url %}active{% endif %}"
+            aria-current="page"
+            href="{%url 'mybooks'%}"
             >Mybooks</a
           >
         </li>
         <li class="nav-item">
-           {% url 'archive' as archive_url%}
-          <a class="nav-link {% if request.path == archive_url %}active{% endif %}" aria-current="page" href="{%url 'book.archive.show'%}"
+          {% url 'archive' as archive_url%}
+          <a
+            class="nav-link {% if request.path == archive_url %}active{% endif %}"
+            aria-current="page"
+            href="{%url 'book.archive.show'%}"
             >Archive</a
           >
         </li>
       </ul>
+      <form class="d-flex">
+        <input
+          class="form-control me-2"
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+        />
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+      <a  href="{%url 'account.show'%}">
+        <button
+          class="btn btn-outline-success"
+          type="button"
+        >
+          Account
+        </button>
+      </a>
+     <a  href="{%url 'user.logout'%}">
+        <button
+          class="btn btn-outline-success"
+          type="button"
+        >
+          Logout
+        </button>
+      </a>
     </div>
   </div>
 </nav>
