@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect 
 from django.db.models import F
 from django.urls import reverse_lazy
+from django.shortcuts import get_object_or_404
+from django.http import JsonResponse
+from django.template.loader import render_to_string
 from django.views.generic import View, ListView, CreateView, DeleteView, DetailView
 from ..models import Category, Author, Genre, Book, User
 from ..forms import BookForm
@@ -116,3 +119,8 @@ class BookDeleteView(DeleteView):
         
 class BookDetailView(DetailView):
         model = Book
+        template_name = 'saybabook_app/components/bookdetails.html'
+        context_object_name = 'book'
+        def dispatch(self, request, *args, **kwargs):
+            
+             return super().dispatch(request, *args, **kwargs)

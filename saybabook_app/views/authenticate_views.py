@@ -9,4 +9,4 @@ from django.contrib.auth.hashers import make_password
 def user_logout(request):
     logout(request)
     request.session.flush()
-    return redirect('home')
+    return redirect('landingpage')

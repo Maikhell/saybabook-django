@@ -1,0 +1,55 @@
+<div class="modal-header">
+    <h1 class="modal-title fs-5" id="bookDetailModalLabel">{{ book.book_title }}</h1>
+    <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="modal"
+        aria-label="Close"
+    ></button>
+</div>
+
+<div class="modal-body">
+    <dl class="row">
+        <dt class="col-sm-4">Title:</dt>
+        <dd class="col-sm-8">{{ book.book_title }}</dd>
+        <hr class="mt-2 mb-2">
+        
+        <dt class="col-sm-4">Author(s):</dt>
+        <dd class="col-sm-8">
+        {% for author in book.author.all %} {{ author.name }}, {% empty %}
+        Unknown {% endfor %}
+        </dd>
+        
+        <dt class="col-sm-4">Genre(s):</dt>
+        <dd class="col-sm-8">
+            {% for genre in book.genres.all %}
+                <span class="badge bg-secondary">{{ genre.name }}</span>
+            {% empty %}
+                Uncategorized
+            {% endfor %}
+        </dd>
+        
+        <dt class="col-sm-4">Category:</dt>
+        <dd class="col-sm-8">{{ book.book_category.name }}</dd>
+        <hr class="mt-2 mb-2">
+        
+        <dt class="col-sm-12">Description:</dt>
+        <dd class="col-sm-12">
+            {{ book.book_description|linebreaksbr }}
+        </dd>
+        <dt class="col-sm-12">Status</dt>
+        <dd class="col-sm-12">
+            {{ book.book_status}}
+        </dd>
+        <dt class="col-sm-12">Book Online Link:</dt>
+        <dd class="col-sm-12">
+            <a href="{{ book.book_online_link }}" target="_blank">{{ book.book_online_link }}</a>
+        </dd>
+    </dl>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+        Close
+    </button>
+</div>
