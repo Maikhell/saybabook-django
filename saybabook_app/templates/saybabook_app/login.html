@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+      <form
+        method="POST"
+        action="{% url 'user.login'%}"
+        enctype="multipart/form-data"
+      >
+        {% csrf_token %} {{ form.non_field_errors }}
+        <div class="mb-3">
+          <label for="id_user_name" class="form-label">Username</label>
+          <input
+            name="user_name"
+            type="text"
+            class="form-control"
+            id="id_user_name"
+            value="{{ form.user_name.value|default_if_none:'' }}"
+          />
+          <div class="text-danger small">{{ form.user_name.errors }}</div>
+          <div id="userAria" class="form-text">
+            This username will be used to login
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="id_user_password" class="form-label">Password</label>
+          <input
+            name="user_password"
+            type="password"
+            class="form-control"
+            id="id_user_password"
+          />
+          <div class="text-danger small">{{ form.user_password.errors }}</div>
+        </div>
+        <button type="submit" class="btn btn-primary">Register</button>
+      </form>
+    </div>
+</body>
+</html>

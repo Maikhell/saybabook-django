@@ -15,7 +15,7 @@
     <div class="container">
       <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-
+        {{ form.as_p }}
         <div class="mb-3">
           <label for="id_profile_picture" class="form-label"
             >Profile Picture</label

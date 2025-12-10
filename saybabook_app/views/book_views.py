@@ -3,6 +3,7 @@ from django.db.models import F
 from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.template.loader import render_to_string
 from django.views.generic import View, ListView, CreateView, DeleteView, DetailView
 from ..models import Category, Author, Genre, Book, User
@@ -11,20 +12,22 @@ from ..forms import BookForm
 def landing_page(request):
     return render(request, 'saybabook_app/landingpage.html')
 
-def browse_page(request):
-    return render(request, 'saybabook_app/browse.html')
 
-def account_page(request):
-    return render(request, 'saybabook_app/account.html')
+class BookCreateView(LoginRequiredMixin,CreateView):
+    #Owner Id is not saving need fix
 
-class BookCreateView(CreateView):
     #user the book model
     form_class = BookForm
     #specify template to render the form
     template_name = 'saybabook_app/addbook.html'
     # reverse_lazy is used to look up the URL name once Django is fully initialized
     success_url = reverse_lazy('book.show')
-        
+    
+    def form_valid(self, form):
+    # Example: Assign the currently logged-in user to the book before saving
+        form.instance.user = self.request.user 
+        return super().form_valid(form)
+    
     def get_context_data(self, **kwargs):
         self.object = None
         context = super().get_context_data(**kwargs)
@@ -35,10 +38,6 @@ class BookCreateView(CreateView):
         return context
     
     # Optional: Override the form_valid method to assign the user/extra logic
-    # def form_valid(self, form):
-    #     # Example: Assign the currently logged-in user to the book before saving
-    #     # form.instance.user = self.request.user 
-    #     return super().form_valid(form)
     
 class BookListView(ListView):
     # 1. Which model to list

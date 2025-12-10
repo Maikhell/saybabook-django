@@ -1,5 +1,6 @@
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, DeleteView, DetailView
+from django.views.generic import ListView, CreateView, DeleteView, DetailView, UpdateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from ..models import User, UserProfile
 from ..forms import UserForm
 from django.contrib.auth import login
@@ -19,17 +20,29 @@ class UserCreateView(CreateView):
         login(self.request, user)
         return super().form_valid(form)
     
-class UserEditView(ListView):
-    model = User
-    template_name = 'saybabook_app/account.html'
-    def get_queryset(self):
-        query_set = User.objects.all().prefetch_related(
-            'name', 'email','userimage'
-        )
-        return query_set
+class UserEditView(LoginRequiredMixin, UpdateView):
+    #Need to change the model to specify the field and load the account tab
+    model = User 
+    
+    # Specify the form fields you want to allow the user to edit
+    fields = ['first_name', 'last_name', 'email', 'userimage'] 
+    
+    # Template where the edit form is rendered
+    template_name = 'saybabook_app/account.html' 
+    
+    # Where to redirect the user after the form is successfully submitted
+    success_url = reverse_lazy('account.edit') 
+
+    # 🔑 KEY FIX: Override get_object to retrieve the currently logged-in user
+    def get_object(self, queryset=None):
+        return self.request.user
+
+    # Optional: You can still add extra context data if needed, but 'users' is misleading.
+    # If you need to access UserProfile, it should be done through the user object.
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context ['users'] = UserProfile.objects.all()
+        # You would access the current user's profile like this:
+        context['user_profile'] = self.request.user.userprofile 
         return context
         
 class UserDeleteView(DeleteView):

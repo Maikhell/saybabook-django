@@ -9,6 +9,7 @@ urlpatterns = [
     
     # --- Authentication (Ensure paths are unique!) ---
     path('register/', user_views.UserCreateView.as_view(), name='user.create'),
+    path('login/' ,  authenticate_views.user_login, name = 'user.login' ),
     path('logout/', authenticate_views.user_logout, name='user.logout'),
     
     # --- Book Views ---
@@ -21,5 +22,4 @@ urlpatterns = [
     path('mybooks/<int:pk>/delete/', book_views.BookDeleteView.as_view(), name='book.delete'),
     path('mybooks/<int:pk>/detail/', book_views.BookDetailView.as_view(), name = 'book.detail'),
     # --- Account Views ---
-    path('account/edit/', user_views.UserEditView.as_view(), name='account.edit'),
-]
+    path('account/edit/', user_views.UserEditView.as_view(), name='account.edit'),]
