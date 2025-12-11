@@ -32,7 +32,7 @@ class BookCreateView(LoginRequiredMixin,CreateView):
         self.object = None
         context = super().get_context_data(**kwargs)
         # and Many-to-Many fields automatically in its select inputs!
-        context['authors'] = Author.objects.all() 
+        context['users'] = self.request.user.userprofile
         context['categories'] = Category.objects.all() 
         context['genres'] = Genre.objects.all()
         return context
@@ -42,6 +42,7 @@ class BookCreateView(LoginRequiredMixin,CreateView):
 class BookListView(ListView):
     # 1. Which model to list
     model = Book
+    #need fix here
     # 2. Template to render the list
     template_name = 'saybabook_app/browse.html' 
     # 3. Name for the list of objects in the template (was 'books')
@@ -49,7 +50,6 @@ class BookListView(ListView):
     
     # 4. Define the queryset to fetch data (with optimizations)
     def get_queryset(self):
-        # Professional standard: use select_related and prefetch_related 
         # to prevent N+1 queries when accessing related data in the template.
         queryset = Book.objects.filter(book_privacy='public').order_by('-created_at').select_related(
             'book_category' # ForeignKey lookup (one query)

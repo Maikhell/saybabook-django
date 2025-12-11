@@ -20,7 +20,6 @@ class Genre(models.Model):
         return self.name
 
 class UserProfile(models.Model):
-    # For a real application, replace this with linking to Django's Auth User
     email = models.EmailField(max_length=255, unique=True, blank=True, null=True)
     name = models.CharField(max_length=255, unique=True,blank=True, null=True) 
     userImage = models.ImageField(upload_to='user_profile/', blank=True, null=True, verbose_name='User Profile')

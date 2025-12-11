@@ -22,10 +22,9 @@ class UserCreateView(CreateView):
     
 class UserEditView(LoginRequiredMixin, UpdateView):
     #Need to change the model to specify the field and load the account tab
-    model = User 
+    model = User
     
-    # Specify the form fields you want to allow the user to edit
-    fields = ['first_name', 'last_name', 'email', 'userimage'] 
+    fields = ['user_name'] 
     
     # Template where the edit form is rendered
     template_name = 'saybabook_app/account.html' 
@@ -42,7 +41,7 @@ class UserEditView(LoginRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # You would access the current user's profile like this:
-        context['user_profile'] = self.request.user.userprofile 
+        context['user_profile'] = self.request.user
         return context
         
 class UserDeleteView(DeleteView):
