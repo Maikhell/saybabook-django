@@ -1,5 +1,5 @@
 from django import forms
-from .models import Book , User
+from .models import Book , User, UserProfile
 
 
 class BookForm(forms.ModelForm):
@@ -23,13 +23,18 @@ class BookForm(forms.ModelForm):
         widgets = {
             'book_description': forms.Textarea(attrs={'cols': 80, 'rows': 5})
         }
-class UserForm(forms.ModelForm):
+class UserAccountForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = [
-         'user_name',
-         'user_password'       
-        ]
+        fields = ['user_name'] 
+        # Note: We do not include the user_profile field here.
+
+# 2. Form for the UserProfile model (Child)
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['email', 'name', 'userImage']
+        
 class LoginForm(forms.Form):
     username = forms.CharField(
         max_length=150, 
