@@ -24,16 +24,18 @@ class BookForm(forms.ModelForm):
             'book_description': forms.Textarea(attrs={'cols': 80, 'rows': 5})
         }
 class UserAccountForm(forms.ModelForm):
+    # Only include fields from the User model you want to edit
     class Meta:
         model = User
-        fields = ['user_name'] 
-        # Note: We do not include the user_profile field here.
+        fields = ['user_name']
+        # You might also want to exclude the password field for an edit view
 
-# 2. Form for the UserProfile model (Child)
+# New form for the UserProfile model
 class UserProfileForm(forms.ModelForm):
+    # Include all fields from UserProfile that you want the user to edit
     class Meta:
         model = UserProfile
-        fields = ['email', 'name', 'userImage']
+        fields = ['userImage', 'name', 'email']
         
 class LoginForm(forms.Form):
     username = forms.CharField(

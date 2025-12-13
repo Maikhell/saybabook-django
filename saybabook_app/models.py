@@ -36,7 +36,7 @@ class User(models.Model):
     last_login = models.DateTimeField(null=True, blank=True)
     
     def __str__(self):
-        return self.username
+        return self.user_name
     
 class Book(models.Model):
     #User FK 

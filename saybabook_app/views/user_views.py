@@ -23,57 +23,77 @@ class UserCreateView(CreateView):
         login(self.request, user)
         return super().form_valid(form)
 
-ProfileInlineFormSet = inlineformset_factory(
-    parent_model=User,
-    model=UserProfile,
-    fields=['email', 'name', 'userImage'], # Fields from the UserProfile model
-    can_delete=False, # We don't want the user to delete their profile
-    extra=1,          # Allow one extra blank form if no profile exists
-    max_num=1         # Limit to one profile per user (since it's a OneToOne)
-)
 class UserEditView(LoginRequiredMixin, UpdateView):
+    # # The primary model remains User
     model = User 
-    fields = ['user_name'] # The fields for the primary User model
+    form_class = UserAccountForm
     template_name = 'saybabook_app/account.html'
     success_url = reverse_lazy('account.edit') 
-    form_class = UserAccountForm # Use the simple UserAccountForm
 
     def get_object(self, queryset=None):
         """Always edit the currently logged-in user."""
         return self.request.user
 
-    def get_context_data(self, **kwargs):
-        """Pass the inline formset to the context."""
-        context = super().get_context_data(**kwargs)
+    # Get initial data for the UserProfileForm
+    def get_initial(self):
+        initial = super().get_initial()
+        user = self.get_object()
         
+        # Pre-populate UserProfileForm fields if a UserProfile exists
+        if user.user_profile:
+            initial['userImage'] = user.user_profile.userImage
+            initial['name'] = user.user_profile.name
+            initial['email'] = user.user_profile.email
+        
+        return initial
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.get_object()
+        
+        # Instantiate the UserProfileForm
         if self.request.POST:
             # If POST, pass submitted data and files
-            context['profile_formset'] = ProfileInlineFormSet(
+            context['profile_form'] = UserProfileForm(
                 self.request.POST, 
                 self.request.FILES, 
-                instance=self.object
+                instance=user.user_profile # Pass existing instance
             )
         else:
-            # If GET, pass existing instance
-            context['profile_formset'] = ProfileInlineFormSet(instance=self.object)
+            # If GET, pass existing instance. Create an empty UserProfile if it doesn't exist.
+            # This ensures the form is always created/edited for the current user.
+            user_profile, created = UserProfile.objects.get_or_create(userProfile=user)
+            context['profile_form'] = UserProfileForm(instance=user_profile)
+            
+        # The user_form is already added by UpdateView as 'form'
+        # We rename it in context for clarity in the template (account.html)
+        context['user_form'] = context.pop('form')
+        
+        # Also pass the user_profile instance to display the current image
+        context['user_profile'] = user.user_profile
             
         return context
 
-    # 🔑 KEY FIX: Override form_valid to save the primary form AND the formset.
     def form_valid(self, form):
-        # 1. Save the primary form (UserAccountForm)
+        # 1. Save the primary User form
         self.object = form.save()
         
-        # 2. Get the profile formset from the context
-        profile_formset = self.get_context_data()['profile_formset']
+        # 2. Get the UserProfileForm from context (which was instantiated in get_context_data)
+        profile_form = self.get_context_data(object=self.object)['profile_form']
         
-        # 3. Check if the formset is valid
-        if profile_formset.is_valid():
-            # 4. Save the formset—this saves or creates the related UserProfile instance
-            profile_formset.instance = self.object # Ensure the formset knows which User to link to
-            profile_formset.save()
+        # 3. Check if the UserProfileForm is valid
+        if profile_form.is_valid():
+            # Create/Retrieve the UserProfile instance linked to the current User
+            user_profile, created = UserProfile.objects.get_or_create(userProfile=self.object)
             
-        return super().form_valid(form) # Redirect to success_url
+            # Update the form instance to be the one related to the user
+            profile_form.instance = user_profile
+            
+            # 4. Save the UserProfile form
+            profile_form.save()
+            
+        # 5. Redirect to success_url
+        return super().form_valid(form)
         
 class UserDeleteView(DeleteView):
     form_class = UserAccountForm

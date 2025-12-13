@@ -43,6 +43,10 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'saybabook.urls'
 
+# The user is sent here after successfully logging in.
+LOGIN_REDIRECT_URL = 'book.show' 
+
+LOGIN_URL = 'user.login'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

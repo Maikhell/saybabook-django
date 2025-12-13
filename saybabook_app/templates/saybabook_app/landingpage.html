@@ -11,59 +11,96 @@
     <title>Landing Page</title>
   </head>
   <body>
-    <div class="container">
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
+         {% include 'saybabook_app/components/navbar.html' %}
+
+  <div class="container py-5">
+    <div class="row justify-content-center">
         
-        <fieldset>
-            <legend>Account Details</legend>
-            {{ form.as_p }}
-        </fieldset>
-
-        <hr />
-
-        <fieldset>
-            <legend>Profile Details</legend>
-            {{ profile_formset.management_form }}
-            
-            {% for profile_form in profile_formset %}
-                {% if profile_form.instance.pk %}
-                    <h4>Current Profile Picture</h4>
-                    {% if profile_form.instance.userImage %}
-                        <img src="{{ profile_form.instance.userImage.url }}" 
-                             alt="Current Profile Picture" 
-                             class="img-thumbnail" 
-                             style="max-width: 150px; max-height: 150px"
-                        />
+        <div class="col-md-5 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Existing User Login</h4>
+                </div>
+                <div class="card-body">
+                    
+                    {% if error_message %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error_message }}
+                    </div>
                     {% endif %}
-                {% endif %}
-                
-                {{ profile_form.id }} 
-                
-                <div class="mb-3">
-                    <label for="{{ profile_form.name.id_for_label }}" class="form-label">Full Name</label>
-                    {{ profile_form.name }}
-                    <div class="text-danger small">{{ profile_form.name.errors }}</div>
-                </div>
 
-                <div class="mb-3">
-                    <label for="{{ profile_form.email.id_for_label }}" class="form-label">Email Address</label>
-                    {{ profile_form.email }}
-                    <div class="text-danger small">{{ profile_form.email.errors }}</div>
+                    <form method="post" action="{% url 'user.login' %}">
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <label for="id_login_username" class="form-label">Username</label>
+                            <input type="text" name="username" class="form-control" id="id_login_username" required>
+                            
+                            {% comment %} 
+                                If you pass the login form as 'login_form' in the context, 
+                                you can use: {{ login_form.username }} 
+                            {% endcomment %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="id_login_password" class="form-label">Password</label>
+                            <input type="password" name="password" class="form-control" id="id_login_password" required>
+                            
+                            {% comment %} 
+                                If you pass the login form as 'login_form' in the context, 
+                                you can use: {{ login_form.password }} 
+                            {% endcomment %}
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary w-100">Log In</button>
+                    </form>
                 </div>
-                
-                <div class="mb-3">
-                    <label for="{{ profile_form.userImage.id_for_label }}" class="form-label">Profile Picture</label>
-                    {{ profile_form.userImage }}
-                    <div class="text-danger small">{{ profile_form.userImage.errors }}</div>
+                <div class="card-footer text-center text-muted small">
+                    Forgot your password?
                 </div>
-                
-            {% endfor %}
-            
-        </fieldset>
+            </div>
+        </div>
         
-        <button type="submit" class="btn btn-primary">Save Changes</button>
-    </form>
+        <div class="col-md-5 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0">New User Registration</h4>
+                </div>
+                <div class="card-body">
+                    
+                    <form method="post" action="{% url 'user.create' %}">
+                        {% csrf_token %}
+
+                        {% if user_create_form.non_field_errors %}
+                        <div class="alert alert-warning" role="alert">
+                            {{ user_create_form.non_field_errors }}
+                        </div>
+                        {% endif %}
+
+                        <div class="mb-3">
+                            <label for="{{ user_create_form.user_name.id_for_label }}" class="form-label">Choose Username</label>
+                            {{ user_create_form.user_name }}
+                            <div class="text-danger small">{{ user_create_form.user_name.errors }}</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ user_create_form.user_password.id_for_label }}" class="form-label">Choose Password</label>
+                            {{ user_create_form.user_password }} 
+                            <div class="text-danger small">{{ user_create_form.user_password.errors }}</div>
+                        </div>
+
+                        {% comment %} 
+                        If your UserAccountForm includes a 'password confirmation' field, render it here
+                        {% endcomment %}
+
+                        <button type="submit" class="btn btn-success w-100">Register and Log In</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
 </div>
   </body>
 </html>
