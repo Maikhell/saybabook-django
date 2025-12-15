@@ -25,14 +25,14 @@ class BookCreateView(LoginRequiredMixin,CreateView):
     
     def form_valid(self, form):
     # Example: Assign the currently logged-in user to the book before saving
-        form.instance.user = self.request.user 
+        form.instance.owner = self.request.user 
         return super().form_valid(form)
     
     def get_context_data(self, **kwargs):
         self.object = None
         context = super().get_context_data(**kwargs)
         # and Many-to-Many fields automatically in its select inputs!
-        context['users'] = self.request.user.userprofile
+        context['authors'] = Author.objects.all() 
         context['categories'] = Category.objects.all() 
         context['genres'] = Genre.objects.all()
         return context

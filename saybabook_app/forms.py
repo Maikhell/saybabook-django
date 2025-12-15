@@ -3,7 +3,6 @@ from .models import Book , User, UserProfile
 
 
 class BookForm(forms.ModelForm):
-    
     class Meta:
         model = Book
         #fields must be the same name of the forms
@@ -27,7 +26,8 @@ class UserAccountForm(forms.ModelForm):
     # Only include fields from the User model you want to edit
     class Meta:
         model = User
-        fields = ['user_name']
+        fields = ['user_name', ]
+        
         # You might also want to exclude the password field for an edit view
 
 # New form for the UserProfile model

@@ -17,7 +17,7 @@ def user_login(request):
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
             #  KEY STEP 1: Check credentials against the database
-            user = authenticate(request, username=username, password= password)
+            user = authenticate(request, username=username, password=password)
             if user is not None:
                 #  KEY STEP 2: Log the user in and establish the session
                 login(request, user)

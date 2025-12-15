@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.contrib.auth import get_user_model
 
 class Author(models.Model):
     name = models.CharField(max_length=150, unique=True, verbose_name='Author Name')
@@ -19,18 +20,29 @@ class Genre(models.Model):
     def __str__(self):
         return self.name
 
+User = settings.AUTH_USER_MODEL
+
 class UserProfile(models.Model):
+    # This is the crucial link back to the built-in AUTH_USER_MODEL
+    user = models.OneToOneField(
+        User, 
+        on_delete=models.CASCADE, 
+        related_name='profile',
+        blank=True, null=True
+    ) 
+    
     email = models.EmailField(max_length=255, unique=True, blank=True, null=True)
     name = models.CharField(max_length=255, unique=True,blank=True, null=True) 
     userImage = models.ImageField(upload_to='user_profile/', blank=True, null=True, verbose_name='User Profile')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
+    
     def __str__(self):
-        return self.name
+        # Fallback to the user's name if the profile name is blank
+        return self.name or f"Profile for {self.user.username}"    
 class User(models.Model):
     #userProfile OtO
-    user_profile = models.OneToOneField(UserProfile, on_delete=models.SET_NULL, related_name= 'userProfile', null=True)
+    profile = models.OneToOneField(UserProfile, on_delete=models.SET_NULL, related_name= 'profile_user', null=True)
     user_name = models.CharField(max_length=60, unique=True, verbose_name='Username') 
     user_password = models.CharField(max_length=128) # Passwords should use Hashing (min length 128)
     last_login = models.DateTimeField(null=True, blank=True)
