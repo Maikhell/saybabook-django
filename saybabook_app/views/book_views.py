@@ -65,7 +65,7 @@ class BookListView(ListView):
         context['authors'] = Author.objects.all()
         context['genres'] = Genre.objects.all()
         # Ensure 'users' is handled correctly (assuming User is a simple model like yours)
-        context['users'] = User.objects.all().values_list('user_name', flat=True)
+        context['users'] = User.objects.all().values_list('username', flat=True)
         return context
     
     #Same as Above Just Retrieving Privates
@@ -76,7 +76,7 @@ class PrivateBookListView(ListView):
     
     def get_queryset(self):
         # Note: filter by the currently logged-in user here
-        queryset = Book.objects.filter(book_privacy='private').order_by('-created_at').select_related(
+        queryset = Book.objects.filter(owner=self.request.user).order_by('-created_at').select_related(
             'book_category'
         ).prefetch_related(
             'author', 'genres'
@@ -88,7 +88,7 @@ class PrivateBookListView(ListView):
         context['categories'] = Category.objects.all()
         context['authors'] = Author.objects.all()
         context['genres'] = Genre.objects.all()
-        context['users'] = User.objects.all().values_list('user_name', flat=True)
+        context['users'] = User.objects.all().values_list('username', flat=True)
         return context
     
 class ArchivedBookListView(ListView):
@@ -109,7 +109,7 @@ class ArchivedBookListView(ListView):
         context ['categories'] = Category.objects.all()
         context ['authors'] = Author.objects.all()
         context ['genres'] = Genre.objects.all()
-        context ['users'] = User.objects.all().values_list('user_name', flat=True)
+        context ['users'] = User.objects.all().values_list('username', flat=True)
         return context
 class BookDeleteView(DeleteView):
         model = Book

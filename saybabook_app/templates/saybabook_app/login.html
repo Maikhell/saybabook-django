@@ -16,13 +16,13 @@
         <div class="mb-3">
           <label for="id_user_name" class="form-label">Username</label>
           <input
-            name="user_name"
+            name="username"
             type="text"
             class="form-control"
             id="id_user_name"
-            value="{{ form.user_name.value|default_if_none:'' }}"
+            value="{{ form.username.value|default_if_none:'' }}"
           />
-          <div class="text-danger small">{{ form.user_name.errors }}</div>
+          <div class="text-danger small">{{ form.username.errors }}</div>
           <div id="userAria" class="form-text">
             This username will be used to login
           </div>

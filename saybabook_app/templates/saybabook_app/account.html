@@ -13,14 +13,11 @@
   <body>
     {% include 'saybabook_app/components/navbar.html' %}
     <div class="container">
-      <form method="post" enctype="multipart/form-data">
+      <form method="post" enctype="multipart/form-data" action="{% url 'account.edit' %}">
         {% csrf_token %}
 
-        <h3>User Form Test</h3>
-        {{ user_form.as_p }}
-
-        <hr />
-
+        <h3>Account Settings</h3>
+    {{ user_form.as_p }}
         <h3>Profile Form Test</h3>
         {{ profile_form.as_p }}
 

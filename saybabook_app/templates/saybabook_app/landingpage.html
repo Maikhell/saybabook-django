@@ -31,7 +31,7 @@
 
                     <form method="post" action="{% url 'user.login' %}">
                         {% csrf_token %}
-
+                        
                         <div class="mb-3">
                             <label for="id_login_username" class="form-label">Username</label>
                             <input type="text" name="username" class="form-control" id="id_login_username" required>
@@ -70,29 +70,14 @@
                     
                     <form method="post" action="{% url 'user.create' %}">
                         {% csrf_token %}
-
+                        {{ form.as_p }}
                         {% if user_create_form.non_field_errors %}
                         <div class="alert alert-warning" role="alert">
                             {{ user_create_form.non_field_errors }}
                         </div>
                         {% endif %}
 
-                    <div class="mb-3">
-                        <label for="user_name" class="form-label">Enter Username</label>
-                            <input type="text" name="user_name" class="form-control" id="id_user_name_login" required>  
-                        <div class="text-danger small">{{ user_create_form.user_name.errors }}</div>
-                         </div>
-
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Enter Password</label>
-                            <input type="password" name="user_password" class="form-control" id="id_login_password" required>
-                        <div class="text-danger small">{{ user_create_form.user_password.errors }}</div>
-                    </div>
-
-                        {% comment %} 
-                        If your UserAccountForm includes a 'password confirmation' field, render it here
-                        {% endcomment %}
-
+                    
                         <button type="submit" class="btn btn-success w-100">Register and Log In</button>
                     </form>
                 </div>

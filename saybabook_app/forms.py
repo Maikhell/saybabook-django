@@ -1,6 +1,6 @@
 from django import forms
 from .models import Book , User, UserProfile
-
+from django.contrib.auth.forms import UserCreationForm
 
 class BookForm(forms.ModelForm):
     class Meta:
@@ -23,19 +23,23 @@ class BookForm(forms.ModelForm):
             'book_description': forms.Textarea(attrs={'cols': 80, 'rows': 5})
         }
 class UserAccountForm(forms.ModelForm):
-    # Only include fields from the User model you want to edit
     class Meta:
         model = User
-        fields = ['user_name', ]
-        
-        # You might also want to exclude the password field for an edit view
+        fields = ['username', 'email']
+class UserRegisterForm(UserCreationForm):
+    # We add the email field explicitly to the registration form
+    email = forms.EmailField(required=True)
 
+    class Meta(UserCreationForm.Meta):
+        model = User
+        # Fields that will appear in the registration form
+    fields = UserCreationForm.Meta.fields + ('email',)        
 # New form for the UserProfile model
 class UserProfileForm(forms.ModelForm):
     # Include all fields from UserProfile that you want the user to edit
     class Meta:
         model = UserProfile
-        fields = ['userImage', 'name', 'email']
+        fields = ['userImage', 'name']
         
 class LoginForm(forms.Form):
     username = forms.CharField(

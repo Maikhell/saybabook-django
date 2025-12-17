@@ -23,6 +23,17 @@
         {% for author in book.author.all %} {{ author.name }}, {% empty %}
         Unknown {% endfor %}
       </p>
+       <p class="card-text">
+    <p class="card-text">
+  <strong>Owner:</strong>
+  {% if book.owner %}
+    {# We access 'username' because that is the field in your User model #}
+    {{ book.owner.username }}
+  {% else %}
+    Unknown
+  {% endif %}
+</p>
+
       <p class="card-text">
         <strong>Genres:</strong>
         {% for genre in book.genres.all %}

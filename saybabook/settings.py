@@ -45,7 +45,7 @@ ROOT_URLCONF = 'saybabook.urls'
 
 # The user is sent here after successfully logging in.
 LOGIN_REDIRECT_URL = 'book.show' 
-
+LOGOUT_REDIRECT_URL = 'landing_page'
 LOGIN_URL = 'user.login'
 TEMPLATES = [
     {
