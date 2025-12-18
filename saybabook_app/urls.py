@@ -21,5 +21,6 @@ urlpatterns = [
     # --- Detail/Action Views ---
     path('mybooks/<int:pk>/delete/', book_views.BookDeleteView.as_view(), name='book.delete'),
     path('mybooks/<int:pk>/detail/', book_views.BookDetailView.as_view(), name = 'book.detail'),
+    path('book/edit/<int:pk>/', book_views.BookEditView.as_view(), name='book.edit'),
     # --- Account Views ---
     path('account/edit/', user_views.UserEditView.as_view(), name='account.edit'),]

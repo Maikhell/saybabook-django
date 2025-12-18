@@ -5,8 +5,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from ..models import User, UserProfile
 from ..forms import UserAccountForm, UserProfileForm
 from django.contrib.auth import login
-from django.forms.models import inlineformset_factory
-from django.contrib.auth.hashers import make_password
 from django.db import transaction
 from ..forms import UserRegisterForm 
 class UserCreateView(CreateView):
@@ -51,7 +49,6 @@ class UserEditView(LoginRequiredMixin, UpdateView):
         """Override post to handle both forms manually."""
         self.object = self.get_object()
         user_form = UserAccountForm(request.POST, instance=self.object)
-        
         user_profile, _ = UserProfile.objects.get_or_create(user=self.object)
         profile_form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
 

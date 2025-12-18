@@ -54,7 +54,19 @@
        <p class="card-text">
         <strong>Status:</strong> {{ book.book_status}}
       </p>
+      {% if mode == "edit" %}
         <button 
+            type="button" 
+            class="btn btn-primary view-details" 
+            data-bs-toggle="modal" 
+            data-bs-target="#bookDetailModal" 
+            data-book-id="{{ book.pk }}" 
+            data-detail-url="{% url 'book.edit' book.pk %}" 
+        >
+            Edit Details
+        </button>
+        {% else %}
+                <button 
             type="button" 
             class="btn btn-primary view-details" 
             data-bs-toggle="modal" 
@@ -64,6 +76,7 @@
         >
             View Details
         </button>
+        {% endif %}
         <!-- remove delete button in browse -->
       <a href="{% url 'book.delete' book.pk %}" class="btn btn-danger"
         >Delete</a

@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.template.loader import render_to_string
-from django.views.generic import View, ListView, CreateView, DeleteView, DetailView
+from django.views.generic import View, ListView, CreateView, DeleteView, DetailView, UpdateView
 from ..models import Category, Author, Genre, Book, User
 from ..forms import BookForm
 
@@ -123,3 +123,25 @@ class BookDetailView(DetailView):
         def dispatch(self, request, *args, **kwargs):
             
              return super().dispatch(request, *args, **kwargs)
+
+class BookEditView(LoginRequiredMixin, UpdateView):
+    model = Book
+    form_class = BookForm
+    # It's usually better to have a dedicated edit template, 
+    # but you can reuse your addbook.html if the fields are the same!
+    template_name = 'saybabook_app/editbook.html' 
+    context_object_name = 'book'
+    success_url = reverse_lazy('book.mybooks') # Redirect back to user's private list
+
+    def get_queryset(self):
+        """
+        SECURITY: This ensures a user can ONLY edit books where 
+        they are the owner. If they try to access someone else's 
+        book ID in the URL, they will get a 404 error.
+        """
+        return Book.objects.filter(owner=self.request.user)
+
+    def form_valid(self, form):
+        # Just in case, re-ensure the owner doesn't change during edit
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
