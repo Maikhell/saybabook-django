@@ -131,7 +131,7 @@ class BookEditView(LoginRequiredMixin, UpdateView):
     # but you can reuse your addbook.html if the fields are the same!
     template_name = 'saybabook_app/editbook.html' 
     context_object_name = 'book'
-    success_url = reverse_lazy('book.mybooks') # Redirect back to user's private list
+    success_url = reverse_lazy('book.private.show') # Redirect back to user's private list
 
     def get_queryset(self):
         """

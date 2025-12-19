@@ -55,16 +55,9 @@
         <strong>Status:</strong> {{ book.book_status}}
       </p>
       {% if mode == "edit" %}
-        <button 
-            type="button" 
-            class="btn btn-primary view-details" 
-            data-bs-toggle="modal" 
-            data-bs-target="#bookDetailModal" 
-            data-book-id="{{ book.pk }}" 
-            data-detail-url="{% url 'book.edit' book.pk %}" 
-        >
-            Edit Detail
-        </button>
+       <a href="{% url 'book.edit' book.pk %}" class="btn btn-warning">
+    Edit Detail
+</a>
         {% else %}
                 <button 
             type="button" 
