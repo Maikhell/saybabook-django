@@ -25,9 +25,8 @@ class Genre(models.Model):
         return self.name
 
 User = get_user_model() 
-
 class UserProfile(models.Model):
-    # Link to the built-in User
+    # Using the built in User model
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL, 
         on_delete=models.CASCADE, 
@@ -42,11 +41,11 @@ def create_user_profile(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
-    # This prevents errors if a user is saved but somehow doesn't have a profile
+    # prevents errors if a user is saved but somehow doesn't have a profile
     if hasattr(instance, 'profile'):
         instance.profile.save()    
 class Book(models.Model):
-    #User FK 
+    
     book_title = models.CharField(max_length=255, verbose_name='Title')
     book_description = models.TextField(blank=True, null=True, verbose_name='Description') 
     book_online_link = models.URLField(max_length=500, blank=True, null=True, verbose_name='Online Read Link')
@@ -56,6 +55,7 @@ class Book(models.Model):
     book_status = models.TextField(blank=True, null=True, verbose_name='Status') 
     #Book Genre Name Joined, like if its 1 and 2 its horror, drama
     book_category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name='books')
+    #User FK 
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name='books_added' )
     genres = models.ManyToManyField(Genre, related_name='books', blank=True)
     author = models.ManyToManyField(Author,related_name='books', blank = True)

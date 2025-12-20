@@ -1,0 +1,65 @@
+/* Body Style Design */
+body {
+  background-color: #6C6C6C;
+}
+/* Navbar Style Design */
+.navbar {
+  margin-top: 35px;
+  width: 70%;
+  background-color: #d9d9d9;
+  border-radius: 25px;
+}
+.nav-item {
+  margin-left: 15px;
+  font-family: "IstokWeb", sans-serif;
+  font-weight: 1000;
+}
+.d-flex .btn {
+  color: #313131;
+  border: 1.5px solid;
+  margin-right: 10px;
+  font-weight: 1000;
+  font-family: "IstokWeb", sans-serif;
+}
+.d-flex .btn:hover{
+  background-color: #474747;
+  color: #ffffff;
+  margin-right: 10px;
+  font-weight: 1000;
+  font-family: "IstokWeb", sans-serif;
+}
+/* First Section Style*/
+#brand-name-container{
+text-align: center;
+}
+.brand-name{
+font-weight: 900;
+color: #ffffff;
+font-size: 75px;
+font-family: "IstokWeb", sans-serif;
+}
+#brand-description-container{
+text-align: center;
+width: 50%;
+}
+.brand-description{
+color: #ffffff;
+font-family: "IstokWeb", sans-serif;
+}
+#brand-arrowdown-container{
+text-align: center;
+width: 50%;
+}
+.brand-arrowdown{
+width: 60px;
+height:60px;
+}
+/* Seconds Section Style*/
+#features-container{
+    text-align: center;
+}
+/* Custom Font*/
+@font-face {
+  font-family: "IstokWeb";
+  src: url("../fonts/IstokWeb-Regular.ttf") format("truetype");
+}
