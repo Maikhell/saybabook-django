@@ -48,7 +48,7 @@
     <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
+            <div class="modal-header bg-secondary text-white">
                 <h5 class="modal-title" id="loginModalLabel">Existing User Login</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -70,8 +70,9 @@
                         <label for="id_login_password" class="form-label">Password</label>
                         <input type="password" name="password" class="form-control" id="id_login_password" required>
                     </div>
-
-                    <button type="submit" class="btn btn-primary w-100">Log In</button>
+                    <div class="login-btn-container">
+                    <button type="submit" id="login-btn" class="btn btn-secondary w-100">Log In</button>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer justify-content-center">
@@ -85,7 +86,7 @@
 <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header bg-success text-white">
+            <div class="modal-header bg-secondary text-white">
                 <h5 class="modal-title" id="registerModalLabel">New User Registration</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -100,8 +101,9 @@
                         {{ user_create_form.non_field_errors }}
                     </div>
                     {% endif %}
-
-                    <button type="submit" class="btn btn-success w-100">Register and Log In</button>
+                    <div class="btn-register-container">
+                    <button type="submit" id="btn-register" class="btn btn-secondary w-100">Register and Log In</button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -132,25 +134,35 @@
 </div>
 <div class="row" id="features-container">
     <div class="col-6">
-    <img class="brand-arrowdown" src="{% static 'saybabook_app/img/arrowdown.png' %}" alt="">
-        <p>Book Icon</p>
+    <img class="brand-arrowdown" src="{% static 'saybabook_app/img/bookicon.png' %}" alt="">
+        <span class="feat-description">Book Icon</span>
     </div>
     <div class="col-6">
-    <img class="brand-arrowdown" src="{% static 'saybabook_app/img/arrowdown.png' %}" alt="">
-        <p>Link Icon</p>
+    <img class="brand-arrowdown" src="{% static 'saybabook_app/img/linkicon.png' %}" alt="">
+        <span class="feat-description">Link Icon</span>
     </div>
     <div class="container">
-    <img class="brand-arrowdown" src="{% static 'saybabook_app/img/arrowdown.png' %}" alt="">
-    <p>Folder Icon</p>
+    <img class="brand-arrowdown" src="{% static 'saybabook_app/img/foldericon.png' %}" alt="">
+    <span class="feat-description">Folder Icon</span>
     </div>
        <div class="col-6">
-    <img class="brand-arrowdown" src="{% static 'saybabook_app/img/arrowdown.png' %}" alt="">
-        <p>Human Icon</p>
+    <img class="brand-arrowdown" src="{% static 'saybabook_app/img/usericon.png' %}" alt="">
+        <span class="feat-description">Human Icon</span>
     </div>
     <div class="col-6">
-    <img class="brand-arrowdown" src="{% static 'saybabook_app/img/arrowdown.png' %}" alt="">
-        <p>What Icon</p>
+    <img class="brand-arrowdown" src="{% static 'saybabook_app/img/thundericon.png' %}" alt="">
+        <span class="feat-description">Thunder Icon</span>
     </div>
+</div>
+</section>
+<section>
+    <div class="container" id="brand-name-container">
+    <br>
+    <span class="brand-name"> Contact</span>
+</div>
+<div class="container" id="brand-arrowdown-container">
+    <br>
+    <img class="brand-arrowdown" src="{% static 'saybabook_app/img/arrowdown.png' %}" alt="">
 </div>
 </section>
 <!-- Nav Modal Register Ends Here -->
