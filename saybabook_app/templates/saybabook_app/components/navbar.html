@@ -1,4 +1,5 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-light">
   <div class="container-fluid">
     <button
       class="navbar-toggler"
@@ -48,27 +49,26 @@
             >Archive</a
           >
         </li>
-      </ul>
-      <form class="d-flex">
+        <li class="nav-item">
+          <form class="d-flex" id="search-container">
         <input
           class="form-control me-2"
           type="search"
           placeholder="Search"
           aria-label="Search"
         />
-        <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
+        </li>
+      </ul>
+      
       <a  href="{%url 'account.edit'%}">
-        <button
-          class="btn btn-outline-success"
-          type="button"
-        >
-          Account
-        </button>
+            <img class="account-icon" type="button" src="{% static 'saybabook_app/img/usericon.png' %}" alt="">
+
       </a>
      <a  href="{%url 'user.logout'%}">
         <button
-          class="btn btn-outline-success"
+          class="btn"
+          id="logout-btn"
           type="button"
         >
           Logout

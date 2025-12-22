@@ -1,80 +1,92 @@
-<div class="container">
-  {% for book in books %}
-  <div class="card" style="width: 18rem; margin-bottom: 20px">
-    {% if book.book_cover %}
-    <img
-      src="{{ book.book_cover.url }}"
-      class="card-img-top"
-      alt="{{ book.book_title }} cover"
-    />
-    {% else %}
-    <img
-      src="https://placehold.co/600x400/CCCCCC/000000?text=No+Cover"
-      class="card-img-top"
-      alt="No cover loaded"
-    />
-    {% endif %}
-
-    <div class="card-body">
-      <h5 class="card-title">{{ book.book_title }}</h5>
-
-      <p class="card-text">
-        <strong>Author(s):</strong>
-        {% for author in book.author.all %} {{ author.name }}, {% empty %}
-        Unknown {% endfor %}
-      </p>
-       <p class="card-text">
-    <p class="card-text">
-  <strong>Owner:</strong>
-  {% if book.owner %}
-    {# We access 'username' because that is the field in your User model #}
-    {{ book.owner.username }}
+<div class="container" id="card-container">
+  
+  <h1 class="section-header mb-4">
+  {% if request.resolver_match.url_name == 'book.show' %}
+    Browse All Books
+  {% elif request.resolver_match.url_name == 'book.private.show' %}
+    My Private Library
+  {% elif request.resolver_match.url_name == 'book.archive.show' %}
+    Archived Books
   {% else %}
-    Unknown
-  {% endif %}
-</p>
+    No Name
+  {% endif %}</h1>
 
-      <p class="card-text">
-        <strong>Genres:</strong>
-        {% for genre in book.genres.all %}
-        <span class="badge bg-secondary me-1">{{ genre.name }}</span>
-        {% empty %}
-        <span class="text-muted fst-italic">No genres listed.</span>
-        {% endfor %}
-      </p>
-      <p class="card-text">
-        {% if book.book_category %}
-        <strong>Category: </strong> {{ book.book_category.name}} {% else %}
-        <span class="text-muted fst-italic">No category listed.</span>
-        {% endif %}
-      </p>
-      <p class="card-text">
-        <strong>Description:</strong> {{ book.book_description|truncatechars:100}}
-      </p>
-       <p class="card-text">
-        <strong>Status:</strong> {{ book.book_status}}
-      </p>
-      {% if mode == "edit" %}
-       <a href="{% url 'book.edit' book.pk %}" class="btn btn-warning">
-    Edit Detail
-</a>
+  <div class="row g-4">
+    {% for book in books %}
+    <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+       <h5 class="card-title">{{ book.book_title }}</h5>
+      <div class="card h-100 shadow-sm">
+        {% if book.book_cover %}
+        <img
+          src="{{ book.book_cover.url }}"
+          class="card-img-top"
+          alt="{{ book.book_title }} cover"
+          style="height: 250px; object-fit: cover;"
+        />
         {% else %}
-                <button 
-            type="button" 
-            class="btn btn-primary view-details" 
-            data-bs-toggle="modal" 
-            data-bs-target="#bookDetailModal" 
-            data-book-id="{{ book.pk }}" 
-            data-detail-url="{% url 'book.detail' book.pk %}" 
-        >
-            View Details
-        </button>
+        <img
+          src="https://placehold.co/600x400/CCCCCC/000000?text=No+Cover"
+          class="card-img-top"
+          alt="No cover loaded"
+          style="height: 250px; object-fit: cover;"
+        />
         {% endif %}
-        <!-- remove delete button in browse -->
-      <a href="{% url 'book.delete' book.pk %}" class="btn btn-danger"
-        >Delete</a
-      >
+
+        <div class="card-body d-flex flex-column">
+         
+
+          <p class="card-text">
+            <strong>Author(s):</strong>
+            {% for author in book.author.all %} {{ author.name }}{% if not forloop.last %}, {% endif %} {% empty %}
+            Unknown {% endfor %}
+          </p>
+
+          <p class="card-text">
+            <strong>Owner:</strong>
+            {% if book.owner %}
+              {{ book.owner.username }}
+            {% else %}
+              Unknown
+            {% endif %}
+          </p>
+
+          <p class="card-text">
+            <strong>Genres:</strong>
+            {% for genre in book.genres.all %}
+            <span class="badge bg-secondary me-1">{{ genre.name }}</span>
+            {% empty %}
+            <span class="text-muted fst-italic">No genres.</span>
+            {% endfor %}
+          </p>
+
+          <p class="card-text">
+            <strong>Status:</strong> {{ book.book_status }}
+          </p>
+
+          <p class="card-text">
+            <strong>Description:</strong> {{ book.book_description|truncatechars:80 }}
+          </p>
+
+          <div class="mt-auto pt-3">
+            {% if mode == "edit" %}
+            <a href="{% url 'book.edit' book.pk %}" class="btn btn-warning w-100 mb-2">Edit Detail</a>
+            <a href="{% url 'book.delete' book.pk %}" class="btn btn-outline-danger btn-sm w-100">Delete</a>
+            {% else %}
+            <button 
+                type="button" 
+                class="btn btn-secondary view-details w-100 mb-2" 
+                data-bs-toggle="modal" 
+                data-bs-target="#bookDetailModal" 
+                data-book-id="{{ book.pk }}" 
+                data-detail-url="{% url 'book.detail' book.pk %}" 
+            >
+                View Details
+            </button>
+            {% endif %}
+          </div>
+        </div>
+      </div>
     </div>
+    {% endfor %}
   </div>
-  {% endfor %}
 </div>

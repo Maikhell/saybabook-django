@@ -1,0 +1,68 @@
+/* Body Style Design */
+body {
+  padding: 30px;
+  background-color: #D9D9D9;
+}
+/* Navbar Style Design */
+.navbar {
+  background-color: #504d4d;
+  border-radius: 5px;
+}
+.nav-link {
+  color: #ffffff;
+  font-weight: bold;
+  margin-right: 30px;
+}
+.account-icon{
+    width: 35px;
+    height: 35px;
+    border-radius: 30px;
+    background-color: #D9D9D9;
+    margin-left:10px ;
+    margin-right:10px ;
+}
+.account-icon:hover{
+    width: 35px;
+    height: 35px;
+    border-radius: 30px;
+    background-color: #D9D9D9;
+    border: 3px solid #48a865;
+    margin-left:10px ;
+    margin-right:10px ;
+}
+#logout-btn{
+    color: #dfa1a1;
+    font-weight: 900;
+}
+#logout-btn:hover{
+    color: #d13e3e;
+    font-weight: 900;
+    border: 2px solid #d13e3e;
+}
+#search-container{
+    margin-left: 20px;
+    width: 100%;
+}
+/* Section 1 Style Design */
+.section-header{
+  font-family: "IstokWeb", sans-serif;
+  font-weight: 900;
+  color: #ffffff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+#card-container{
+background-color: #9D9D9D;
+}
+.card-title{
+    background-color: #504d4d;
+    color: #ffffff;
+    font-size: 16px;
+    border-radius: 3px 3px 2px 1px ;
+    text-align: center;
+}
+/* Custom Font*/
+@font-face {
+  font-family: "IstokWeb";
+  src: url("../fonts/IstokWeb-Regular.ttf") format("truetype");
+}
+
