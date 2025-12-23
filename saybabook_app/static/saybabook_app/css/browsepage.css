@@ -60,6 +60,22 @@ background-color: #9D9D9D;
     border-radius: 3px 3px 2px 1px ;
     text-align: center;
 }
+/* AddBook.Html*/
+#btn-submit{
+  border-bottom: 3px solid #45a5dd;
+  background-color: #504d4d;
+  color: #45a5dd;
+  font-weight:700;
+  margin-bottom: 10px;
+}
+#btn-submit:hover{
+  border-bottom: 2px solid #45a5dd;
+  background-color: #504d4d;
+  color: #ffffff;
+}
+.form-label{
+  font-weight: 700;
+}
 /* Custom Font*/
 @font-face {
   font-family: "IstokWeb";

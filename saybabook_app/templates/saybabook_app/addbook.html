@@ -4,16 +4,22 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="{% static 'saybabook_app/img/favicon.png' %}">
     <link
       rel="stylesheet"
       href="{% static 'saybabook_app/vendor/bootstrap-5.3.8-dist/css/bootstrap.min.css' %}"
+    />
+         <link
+      rel="stylesheet"
+      href="{% static 'saybabook_app/css/browsepage.css' %}"
     />
     <title>Add Books</title>
   </head>
   <body>
     {% include 'saybabook_app/components/navbar.html' %}
     <section>
-      <div class="container">
+      <div class="container" id = "card-container">
+        <h1 class="section-header mb-2">Add Book</h1>
         <form
     method="POST"
     action="{% url 'book.add'%}"
@@ -161,9 +167,10 @@
         </div>
     </div>
     
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn" id="btn-submit">Add Book</button>
 </form>
       </div>
     </section>
+      {% include 'saybabook_app/components/scripts.html' %}
   </body>
 </html>
