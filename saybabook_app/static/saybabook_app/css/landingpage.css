@@ -64,6 +64,9 @@ body {
   border-radius: 10px;
 }
 /* First Section Style*/
+.hero-section{
+  padding-bottom: 15px;
+}
 #brand-name-container {
   text-align: center;
 }
@@ -89,12 +92,20 @@ body {
   width: 60px;
   height: 60px;
 }
-/* Seconds Section Style*/
+/* Second Section Style*/
+.feature-section{
+  background-color:#8F8E8E ;
+  padding-bottom: 25px;
+}
 .feat-description{
   color: #ffffff;
 }
 #features-container {
   text-align: center;
+}
+/* Third Section Style*/
+.contact-section{
+    background-color:#b9b7b7 ;
 }
 /* Custom Font*/
 @font-face {

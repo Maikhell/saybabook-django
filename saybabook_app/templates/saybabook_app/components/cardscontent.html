@@ -69,7 +69,7 @@
 
           <div class="mt-auto pt-3">
             {% if mode == "edit" %}
-            <a href="{% url 'book.edit' book.pk %}" class="btn btn-warning w-100 mb-2">Edit Detail</a>
+            <a href="{% url 'book.edit' book.pk %}" class="btn w-100 mb-2" id="btn-edit">Edit Details</a>
             <a href="{% url 'book.delete' book.pk %}" class="btn btn-outline-danger btn-sm w-100">Delete</a>
             {% else %}
             <button 

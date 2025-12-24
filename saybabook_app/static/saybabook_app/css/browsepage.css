@@ -64,17 +64,30 @@ background-color: #9D9D9D;
 #btn-submit{
   border-bottom: 3px solid #45a5dd;
   background-color: #504d4d;
-  color: #45a5dd;
+  color: #ffffff;
   font-weight:700;
   margin-bottom: 10px;
 }
 #btn-submit:hover{
-  border-bottom: 2px solid #45a5dd;
+  border: 2px solid #45a5dd;
   background-color: #504d4d;
-  color: #ffffff;
+  color: #45a5dd;
 }
 .form-label{
   font-weight: 700;
+}
+/* Mybooks.Html*/
+#btn-edit{
+  border-bottom: 3px solid #ebd142;
+  background-color: #504d4d;
+  color: #ffffff;
+  font-weight:700;
+  margin-bottom: 10px;
+}
+#btn-edit:hover{
+  border: 2px solid #ebd142;
+  background-color: #504d4d;
+  color: #ebd142;
 }
 /* Custom Font*/
 @font-face {
