@@ -107,6 +107,12 @@ body {
 .contact-section{
     background-color:#b9b7b7 ;
 }
+#contact-info-container{
+  text-align: center;
+}
+.footer-info{
+  text-align: center;
+}
 /* Custom Font*/
 @font-face {
   font-family: "IstokWeb";
