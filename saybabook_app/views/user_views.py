@@ -7,6 +7,7 @@ from ..forms import UserAccountForm, UserProfileForm
 from django.contrib.auth import login
 from django.db import transaction
 from ..forms import UserRegisterForm 
+
 class UserCreateView(CreateView):
     model = User
     form_class = UserRegisterForm

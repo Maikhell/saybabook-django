@@ -1,13 +1,11 @@
 from django.urls import path
-# Assuming you set up __init__.py to import everything, or you import modules:
 from .views import book_views, user_views, authenticate_views 
 
 urlpatterns = [
     # --- Landing Page ---
-    # Good use of bare path for the application root
     path('', book_views.landing_page, name='landingpage'),
     
-    # --- Authentication (Ensure paths are unique!) ---
+    # --- Authentication ---
     path('register/', user_views.UserCreateView.as_view(), name='user.create'),
     path('login/' ,  authenticate_views.user_login, name = 'user.login' ),
     path('logout/', authenticate_views.user_logout, name='user.logout'),
