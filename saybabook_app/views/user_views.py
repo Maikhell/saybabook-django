@@ -1,6 +1,6 @@
-from django.shortcuts import render, redirect 
+from django.shortcuts import redirect 
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, DeleteView, DetailView, UpdateView
+from django.views.generic import CreateView, DeleteView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from ..models import User, UserProfile
 from ..forms import UserAccountForm, UserProfileForm
@@ -29,14 +29,11 @@ class UserEditView(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Rename the default 'form' to 'user_form' for your template
         context['user_form'] = context.get('form')
         
-        # Ensure profile exists
         user_profile, created = UserProfile.objects.get_or_create(user=self.request.user)
         
         if self.request.POST:
-            # Bind POST data AND FILES (important for the image) to the profile form
             context['profile_form'] = UserProfileForm(
                 self.request.POST, 
                 self.request.FILES, 
@@ -47,7 +44,6 @@ class UserEditView(LoginRequiredMixin, UpdateView):
         return context
 
     def post(self, request, *args, **kwargs):
-        """Override post to handle both forms manually."""
         self.object = self.get_object()
         user_form = UserAccountForm(request.POST, instance=self.object)
         user_profile, _ = UserProfile.objects.get_or_create(user=self.object)
@@ -59,7 +55,6 @@ class UserEditView(LoginRequiredMixin, UpdateView):
                 profile_form.save()
             return redirect(self.success_url)
         else:
-            # Re-render with errors if either form is invalid
             return self.render_to_response(
                 self.get_context_data(form=user_form, profile_form=profile_form)
             )

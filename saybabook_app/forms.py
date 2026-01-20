@@ -1,42 +1,40 @@
 from django import forms
-from .models import Book , User, UserProfile
+from .models import Book , User, UserProfile, Author, Genre
 from django.contrib.auth.forms import UserCreationForm
 
 class BookForm(forms.ModelForm):
+    new_authors = forms.CharField(
+        required=False, 
+        help_text="Separate multiple authors with commas",
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'e.g. J.K. Rowling, George Orwell'})
+    )
+    new_genres = forms.CharField(
+        required=False, 
+        help_text="Separate multiple genres with commas",
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'e.g. Sci-Fi, Mystery'})
+    )
+
     class Meta:
         model = Book
-        #fields must be the same name of the forms
         fields = [
-            'book_title', 
-            'book_description', 
-            'book_online_link', 
-            'book_cover', 
-            'book_privacy', 
-            'book_status', 
-            'book_category', 
-            'genres', 
-            'author' 
+            'book_title', 'book_description', 'book_online_link', 
+            'book_cover', 'book_privacy', 'book_status', 
+            'book_category', 'genres', 'author' 
         ]
-        
-        #custom widgets
         widgets = {
-            'book_description': forms.Textarea(attrs={'cols': 80, 'rows': 5})
+            'book_description': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),
         }
 class UserAccountForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'email']
 class UserRegisterForm(UserCreationForm):
-    # We add the email field explicitly to the registration form
     email = forms.EmailField(required=True)
 
     class Meta(UserCreationForm.Meta):
         model = User
-        # Fields that will appear in the registration form
     fields = UserCreationForm.Meta.fields + ('email',)        
-# New form for the UserProfile model
 class UserProfileForm(forms.ModelForm):
-    # Include all fields from UserProfile that you want the user to edit
     class Meta:
         model = UserProfile
         fields = ['userImage', 'name']

@@ -38,22 +38,12 @@
     </div>
 
     <div class="mb-3">
-        <label for="bookAuthor" class="form-label">Book Authors</label>
-        <select
-          name="author" 
-          class="form-select"
-          id="bookAuthor"
-          multiple
-          aria-label="Book Authors"
-        >
-          {% for author in authors %}
-          <option value="{{ author.id }}">{{ author.name }}</option>
-          {% endfor %}
-        </select>
-        <small class="form-text text-muted"
-          >Hold Ctrl/Cmd to select multiple authors.</small
-        >
+    <label for="bookAuthor" class="form-label">Select Authors</label>
+    {{ form.author }} <div class="mt-2">
+        <label class="form-label text-primary">Add New Author(s)</label>
+        {{ form.new_authors }}
     </div>
+</div>
 
     <div class="mb-3">
         <label for="bookCategory" class="form-label">Book Category</label>
@@ -71,22 +61,14 @@
     </div>
 
     <div class="mb-3">
-        <label for="bookGenre" class="form-label">Book Genre</label>
-        <select
-          name="genres" 
-          class="form-select"
-          id="bookGenre"
-          multiple
-          aria-label="Book Genres"
-        >
-          {% for genre in genres %}
-          <option value="{{ genre.id }}">{{ genre.name }}</option>
-          {% endfor %}
-        </select>
-        <small class="form-text text-muted"
-          >Hold Ctrl/Cmd to select multiple genres.</small
-        >
+    <label for="bookGenre" class="form-label">Select Genres</label>
+    {{ form.genres }}
+    
+    <div class="mt-2">
+        <label class="form-label text-primary">Add New Genre(s)</label>
+        {{ form.new_genres }}
     </div>
+</div>
 
     <div class="mb-3">
         <label for="bookDescription" class="form-label"

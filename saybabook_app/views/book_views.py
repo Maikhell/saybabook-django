@@ -1,11 +1,7 @@
-from django.shortcuts import render, redirect 
-from django.db.models import F
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.shortcuts import get_object_or_404
-from django.http import JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.template.loader import render_to_string
-from django.views.generic import View, ListView, CreateView, DeleteView, DetailView, UpdateView
+from django.views.generic import ListView, CreateView, DeleteView, DetailView, UpdateView
 from ..models import Category, Author, Genre, Book, User
 from ..forms import BookForm
 
@@ -13,69 +9,62 @@ def landing_page(request):
     return render(request, 'saybabook_app/landingpage.html')
 
 
-class BookCreateView(LoginRequiredMixin,CreateView):
-    #Owner Id is not saving need fix
-
-    #user the book model
+class BookCreateView(LoginRequiredMixin, CreateView):
     form_class = BookForm
-    #specify template to render the form
     template_name = 'saybabook_app/addbook.html'
-    # reverse_lazy is used to look up the URL name once Django is fully initialized
     success_url = reverse_lazy('book.show')
-    
-    def form_valid(self, form):
-    # Example: Assign the currently logged-in user to the book before saving
-        form.instance.owner = self.request.user 
-        return super().form_valid(form)
-    
     def get_context_data(self, **kwargs):
-        self.object = None
         context = super().get_context_data(**kwargs)
-        # and Many-to-Many fields automatically in its select inputs!
-        context['authors'] = Author.objects.all() 
         context['categories'] = Category.objects.all() 
+        context['authors'] = Author.objects.all() 
         context['genres'] = Genre.objects.all()
         return context
     
-    # Optional: Override the form_valid method to assign the user/extra logic
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.owner = self.request.user 
+        self.object.save()
+        form.save_m2m()
+        new_authors_str = form.cleaned_data.get('new_authors')
+        if new_authors_str:
+            names = [n.strip() for n in new_authors_str.split(',') if n.strip()]
+            for name in names:
+                author_obj, _ = Author.objects.get_or_create(name=name)
+                self.object.author.add(author_obj)
+        new_genres_str = form.cleaned_data.get('new_genres')
+        if new_genres_str:
+            genres_list = [g.strip() for g in new_genres_str.split(',') if g.strip()]
+            for g_name in genres_list:
+                genre_obj, _ = Genre.objects.get_or_create(name=g_name)
+                self.object.genres.add(genre_obj)
+
+        return redirect(self.success_url)
     
 class BookListView(ListView):
-    # 1. Which model to list
     model = Book
-    #need fix here
-    # 2. Template to render the list
     template_name = 'saybabook_app/browse.html' 
-    # 3. Name for the list of objects in the template (was 'books')
     context_object_name = 'books' 
-    
-    # 4. Define the queryset to fetch data (with optimizations)
     def get_queryset(self):
-        # to prevent N+1 queries when accessing related data in the template.
         queryset = Book.objects.filter(book_privacy='public').order_by('-created_at').select_related(
-            'book_category' # ForeignKey lookup (one query)
+            'book_category'
         ).prefetch_related(
-            'author', 'genres' # ManyToMany lookup (one query per M2M field)
+            'author', 'genres'
         )
         return queryset
-
-    # 5. Add extra context (categories, authors, genres, users) to the template
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
         context['authors'] = Author.objects.all()
         context['genres'] = Genre.objects.all()
-        # Ensure 'users' is handled correctly (assuming User is a simple model like yours)
         context['users'] = User.objects.all().values_list('username', flat=True)
         return context
     
-    #Same as Above Just Retrieving Privates
 class PrivateBookListView(ListView):
     model = Book
     template_name = 'saybabook_app/mybooks.html'
     context_object_name = 'books'
     
     def get_queryset(self):
-        # Note: filter by the currently logged-in user here
         queryset = Book.objects.filter(owner=self.request.user).order_by('-created_at').select_related(
             'book_category'
         ).prefetch_related(
@@ -127,21 +116,17 @@ class BookDetailView(DetailView):
 class BookEditView(LoginRequiredMixin, UpdateView):
     model = Book
     form_class = BookForm
-    # It's usually better to have a dedicated edit template, 
-    # but you can reuse your addbook.html if the fields are the same!
     template_name = 'saybabook_app/editbook.html' 
     context_object_name = 'book'
-    success_url = reverse_lazy('book.private.show') # Redirect back to user's private list
+    success_url = reverse_lazy('book.private.show') 
 
     def get_queryset(self):
         """
-        SECURITY: This ensures a user can ONLY edit books where 
-        they are the owner. If they try to access someone else's 
-        book ID in the URL, they will get a 404 error.
+        A user can ONLY edit books where 
+        they are the owner
         """
         return Book.objects.filter(owner=self.request.user)
 
     def form_valid(self, form):
-        # Just in case, re-ensure the owner doesn't change during edit
         form.instance.owner = self.request.user
         return super().form_valid(form)
