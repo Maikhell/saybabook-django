@@ -79,6 +79,13 @@ DATABASES = {
         'PORT': '5432'
     }
 }
+    #    Default  Database SQL DBLITE
+    #    DATABASES = {
+    #'   default': {
+     #   'ENGINE': 'django.db.backends.sqlite3',
+     #   'NAME': BASE_DIR / 'db.sqlite3',
+   #        }
+#         }
     #Added Codes 
 TIME_INPUT_FORMATS = [
     '%H:%M',         '14:30'

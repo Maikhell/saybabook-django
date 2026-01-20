@@ -23,7 +23,7 @@ class UserEditView(LoginRequiredMixin, UpdateView):
     form_class = UserAccountForm
     template_name = 'saybabook_app/account.html'
     success_url = reverse_lazy('account.edit') 
-
+#
     def get_object(self, queryset=None):
         return self.request.user
 
